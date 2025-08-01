@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🍿 Snack Spy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Montserrat', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1.glitch-title {
+      font-family: 'Press Start 2P', cursive;
+      color: #ff4081;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 0 #00e5ff;
+      animation: glitch 1.5s infinite;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 2px 2px 0 #00e5ff; }
+      50% { text-shadow: -2px -2px 0 #ff4081; }
+      100% { text-shadow: 2px 2px 0 #00e5ff; }
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      color: #b0bec5;
+    }
+
+    .upload-box {
+      margin-bottom: 2rem;
+    }
+
+    .upload-label {
+      background: #1e88e5;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+    .upload-label:hover {
+      background-color: #0d47a1;
+    }
+
+    #imageUpload {
+      display: none;
+    }
+
+    .preview-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    canvas {
+      max-width: 100%;
+      border: 2px dashed #424242;
+      background-color: #212121;
+      border-radius: 10px;
+    }
+
+    .analysis-box {
+      background-color: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      width: 90%;
+      max-width: 500px;
+      color: #fff;
+    }
+
+    .verdict-text {
+      font-weight: bold;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #00e676;
+    }
+
+    #funnyAnnotation {
+      font-size: 1rem;
+      color: #ffc107;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="glitch-title" data-text="🍿 Snack Spy">🍿 Snack Spy</h1>
+  <p class="subtitle">Upload a photo & let the Snack Analysis Team give you justice 🍕🍟🍩</p>
+
+  <div class="upload-box">
+    <label for="imageUpload" class="upload-label">🔍 Upload Evidence</label>
+    <input type="file" id="imageUpload" accept="image/*"/>
+  </div>
+
+  <div class="preview-area">
+    <canvas id="canvas" width="400" height="300"></canvas>
+    <div class="analysis-box">
+      <p id="funnyAnnotation">😶 Waiting for the truth to surface...</p>
+      <p id="verdict" class="verdict-text">🍽️ Verdict will appear here...</p>
+    </div>
+  </div>
+
+  <footer>© 2025 Snack Spy 🍿 | Built with ❤️ for sibling justice</footer>
+
+  <script>
+    const imageUpload = document.getElementById('imageUpload');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const funnyAnnotation = document.getElementById('funnyAnnotation');
+    const verdict = document.getElementById('verdict');
+
+    const annotations = [
+      "🍕 Oh no, someone snuck an extra slice!",
+      "🍩 Again fighting?! Let’s see who's the snack thief...",
+      "🍟 Hmm... balanced or betrayal?",
+      "🍫 Not fair! One plate is clearly winning!",
+      "🍰 Peace achieved... for now.",
+      "🥪 Sibling showdown begins!",
+    ];
+
+    imageUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const img = new Image();
+        img.onload = function() {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          
+          // Fake random "analysis"
+          const randomIndex = Math.floor(Math.random() * annotations.length);
+          funnyAnnotation.textContent = annotations[randomIndex];
+          verdict.textContent = ["✅ Fair share!", "⚖️ Kinda equal?", "🚨 UNFAIR!"][Math.floor(Math.random() * 3)];
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  </script>
+</body>
+</html>
